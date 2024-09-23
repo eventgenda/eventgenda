@@ -5,7 +5,7 @@ import { Categories } from "@/constants/category.constants";
 import { EventType } from "@/types/event.type";
 import { TableCell, TableRow } from "@mui/material";
 
-export default function EventDashboardPage() {
+export default function CategoriesDashboardPage() {
   const eventHeaders = [
     "Category Name",
     "Category Description",
