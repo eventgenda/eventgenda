@@ -1,11 +1,12 @@
 "use client";
 
 import PaginatedTable from "@/components/Table/PaginatedTable";
-import { Events } from "@/constants/event.constants";
+import { useEvent } from "@/hooks/useEvent";
 import { EventType } from "@/types/event.type";
 import { TableCell, TableRow } from "@mui/material";
 
 export default function EventDashboardPage() {
+  const { events } = useEvent();
   const eventHeaders = [
     "Title",
     "Description",
@@ -23,8 +24,10 @@ export default function EventDashboardPage() {
       <TableRow key={event.title}>
         <TableCell>{event.title}</TableCell>
         <TableCell>{event.description}</TableCell>
-        <TableCell>{event.category.name}</TableCell>
-        <TableCell>{event.createdBy.name}</TableCell>
+        <TableCell>
+          {event.categories.map((category) => category.name)}
+        </TableCell>
+        <TableCell>{event.createdBy.fullName}</TableCell>
         <TableCell>
           {new Date(event.eventStartDate).toLocaleDateString()}
         </TableCell>
@@ -45,7 +48,7 @@ export default function EventDashboardPage() {
     <div className="flex justify-center container mx-auto py-5">
       <PaginatedTable
         headers={eventHeaders}
-        rows={Events}
+        rows={events}
         renderRow={renderEventRow}
       />
     </div>

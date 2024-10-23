@@ -21,11 +21,11 @@ export default function AuthLayout({
   const { userProfileQuery } = useAuth();
 
   useEffect(() => {
-    if (token && userProfileQuery && userProfileQuery.data) {
+    if (token && userProfileQuery?.data) {
       setAuthentication(true);
       setUser(userProfileQuery.data.data as UserProfileType);
     }
-  }, [token, setAuthentication, setUser, userProfileQuery?.data]);
+  }, [token, setAuthentication, setUser, userProfileQuery]);
 
   return <div className="w-full h-screen">{children}</div>;
 }

@@ -1,4 +1,4 @@
-import { BlogType } from "@/common/responses/blog.response";
+import { BlogType } from "@/types/blog.type";
 import { create } from "zustand";
 
 interface BlogStore {

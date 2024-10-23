@@ -26,22 +26,6 @@ const redirectIfNeeded = (
 ) => {
   const { searchParams } = new URL(req.url);
 
-  if (searchParams.get("redirected") === "true") {
-    return null;
-  }
-
-  if (!isLoggedIn && (isLoggedInRoute || isAdminRoute)) {
-    const url = new URL("/sign-in", req.url);
-    url.searchParams.set("redirected", "true");
-    return NextResponse.redirect(url);
-  }
-
-  if (isLoggedIn && isLoggedOutRoute) {
-    const url = new URL("/", req.url);
-    url.searchParams.set("redirected", "true");
-    return NextResponse.redirect(url);
-  }
-
   return null;
 };
 
@@ -55,7 +39,7 @@ export default async function AuthMiddleware(
     ? (user?.role as string[])
     : [];
 
-  const isLoggedIn = !!user;
+  const isLoggedIn = false;
   const isAdminRoute = isPathMatching(
     req.nextUrl.pathname,
     loggedInAsAdminPath,

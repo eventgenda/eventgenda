@@ -1,6 +1,6 @@
 "use client";
 
-import { BlogType } from "@/common/responses/blog.response";
+import { BlogType } from "@/types/blog.type";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MoreVertIcon from "@mui/icons-material/MoreVert";

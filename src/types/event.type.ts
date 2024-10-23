@@ -1,3 +1,8 @@
+import { BaseResponseType } from "@/common/responses/response.type";
+import { EventRuleType } from "./event-rule.type";
+import { LocationType } from "./location.type";
+import { UserProfileType } from "./user.type";
+
 export type UserType = {
   name: string;
   email: string;
@@ -5,6 +10,7 @@ export type UserType = {
 };
 
 export type CategoryType = {
+  _id: string;
   name: string;
   description: string;
 };
@@ -15,13 +21,7 @@ export type SponsorType = {
   website: string;
 };
 
-export type EventRuleType = {
-  maxParticipants: number;
-  minAge: number;
-  requiresIdVerification: boolean;
-};
-
-export type LocationType = {
+export type LocationModelType = {
   name: string;
   address: string;
   city: string;
@@ -34,18 +34,19 @@ export type ProjectType = {
 };
 
 export type EventType = {
+  _id: string;
   title: string;
   description: string;
   limit: number;
-  category: CategoryType;
-  createdBy: UserType;
+  categories: CategoryType[];
+  createdBy: UserProfileType;
   eventStartDate: Date;
   eventEndDate: Date;
   registrationStartDate: Date;
   registrationEndDate: Date;
-  participants: UserType[];
+  participants: UserProfileType[];
   sponsor: SponsorType;
-  eventRule: EventRuleType;
+  rules: EventRuleType[];
   donate: UserType[];
   projects: ProjectType[];
   prizes: number[];
@@ -53,4 +54,15 @@ export type EventType = {
   location: LocationType;
   createdAt: Date;
   updatedAt: Date;
+  amountRaised: number;
+  amountRequired: number;
+  status: string;
+};
+
+export type EventResponseType = BaseResponseType & {
+  data: EventType;
+};
+
+export type EventsResponseType = BaseResponseType & {
+  data: EventType[];
 };

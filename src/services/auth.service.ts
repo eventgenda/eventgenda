@@ -1,9 +1,6 @@
 import { LoginDto } from "@/common/dto/login.dto";
-import {
-  AuthResponseType,
-  LoginResponseType,
-} from "@/common/responses/auth.response";
 import { apiController } from "@/controllers/api.controller";
+import { AuthResponseType, LoginResponseType } from "@/types/user.type";
 
 export const authService = {
   login: async (loginRequest: LoginDto): Promise<LoginResponseType> => {

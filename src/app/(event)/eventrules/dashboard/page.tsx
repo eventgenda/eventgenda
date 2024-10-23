@@ -2,51 +2,43 @@
 
 import PaginatedTable from "@/components/Table/PaginatedTable";
 import { EventRules } from "@/constants/eventrule.constants";
-import { EventType } from "@/types/event.type";
+import { EventRuleType } from "@/types/event-rule.type";
 import { TableCell, TableRow } from "@mui/material";
 
 export default function EventDashboardPage() {
   const eventHeaders = [
     "Rule Name",
     "Rule Description",
-    "Category",
-    "Created By",
-    "Event Start Date",
-    "Event End Date",
-    "Registration Start Date",
-    "Registration End Date",
-    "Participants",
+    "Created At",
+    "Updated At",
   ];
 
-  function renderEventRow(event: EventType) {
+  // Use a consistent date format with 'en-US' locale
+  function formatDate(date: string | Date) {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  }
+
+  function renderEventRuleRow(eventRule: EventRuleType) {
     return (
-      <TableRow key={event.title}>
-        <TableCell>{event.title}</TableCell>
-        <TableCell>{event.description}</TableCell>
-        <TableCell>{event.category.name}</TableCell>
-        <TableCell>{event.createdBy.name}</TableCell>
-        <TableCell>
-          {new Date(event.eventStartDate).toLocaleDateString()}
-        </TableCell>
-        <TableCell>
-          {new Date(event.eventEndDate).toLocaleDateString()}
-        </TableCell>
-        <TableCell>
-          {new Date(event.registrationStartDate).toLocaleDateString()}
-        </TableCell>
-        <TableCell>
-          {new Date(event.registrationEndDate).toLocaleDateString()}
-        </TableCell>
-        <TableCell>{event.participants.length}</TableCell>
+      <TableRow key={eventRule._id}>
+        <TableCell>{eventRule.name}</TableCell>
+        <TableCell>{eventRule.description}</TableCell>
+        <TableCell>{formatDate(eventRule.createdAt)}</TableCell>
+        <TableCell>{formatDate(eventRule.updatedAt)}</TableCell>
       </TableRow>
     );
   }
+
   return (
     <div className="flex justify-center container mx-auto py-5">
       <PaginatedTable
         headers={eventHeaders}
         rows={EventRules}
-        renderRow={renderEventRow}
+        renderRow={renderEventRuleRow}
       />
     </div>
   );

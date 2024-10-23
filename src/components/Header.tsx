@@ -19,9 +19,10 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as React from "react";
+import { useEffect } from "react";
 import Swal from "sweetalert2";
 
-const pages = ["Events", "Funding", "Hackathons", "Blogs", "Rewards"];
+const pages = ["Events", "Funding-Event", "Hackathons", "Blogs", "Rewards"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
@@ -43,6 +44,17 @@ function Header() {
     setAnchorElUser(null);
   };
 
+  useEffect(() => {
+    const navigateToSignIn = localStorage.getItem("navigateToSignIn");
+
+    if (navigateToSignIn === "true") {
+      // Remove the flag to avoid repeated navigation
+      localStorage.removeItem("navigateToSignIn");
+      // Navigate to the Sign In page
+      router.push("/sign-in");
+    }
+  }, [router]);
+
   const handleLogout = async () => {
     try {
       const result = await Swal.fire({
@@ -55,10 +67,11 @@ function Header() {
       });
 
       if (result.isConfirmed) {
-        action.logout();
-        setTimeout(() => {
-          router.push("/sign-in");
-        }, 100);
+        action.logout(); // Perform your logout action
+        // Set flag to handle the redirect after page refresh
+        localStorage.setItem("navigateToSignIn", "true");
+        // Refresh the browser
+        window.location.reload();
       }
     } catch (error) {
       console.error("Logout failed:", error);
@@ -212,7 +225,14 @@ function Header() {
           ) : (
             <Box sx={{ flexGrow: 0, marginRight: "60px" }}>
               <Typography variant="h6" noWrap sx={{ mr: 2, color: "#4329a6" }}>
-                <Link href="/sign-in">Sign In</Link>
+                <Typography
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push("/sign-in");
+                  }}
+                >
+                  Sign In
+                </Typography>
               </Typography>
             </Box>
           )}

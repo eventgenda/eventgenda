@@ -2,49 +2,42 @@
 
 import PaginatedTable from "@/components/Table/PaginatedTable";
 import { Categories } from "@/constants/category.constants";
-import { EventType } from "@/types/event.type";
+import { CreategoryType } from "@/types/category.type";
 import { TableCell, TableRow } from "@mui/material";
 
 export default function CategoriesDashboardPage() {
-  const eventHeaders = [
+  const categoryHeaders = [
     "Category Name",
     "Category Description",
-    "Created By",
-    "Event Start Date",
-    "Event End Date",
-    "Registration Start Date",
-    "Registration End Date",
-    "Participants",
+    "Created At",
+    "Updated At",
   ];
 
-  function renderEventRow(event: EventType) {
+  // Use a consistent date format with 'en-US' locale
+  function formatDate(date: string | Date) {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  }
+
+  function renderCategoryRow(category: CreategoryType) {
     return (
-      <TableRow key={event.title}>
-        <TableCell>{event.category.name}</TableCell>
-        <TableCell>{event.description}</TableCell>
-        <TableCell>{event.createdBy.name}</TableCell>
-        <TableCell>
-          {new Date(event.eventStartDate).toLocaleDateString()}
-        </TableCell>
-        <TableCell>
-          {new Date(event.eventEndDate).toLocaleDateString()}
-        </TableCell>
-        <TableCell>
-          {new Date(event.registrationStartDate).toLocaleDateString()}
-        </TableCell>
-        <TableCell>
-          {new Date(event.registrationEndDate).toLocaleDateString()}
-        </TableCell>
-        <TableCell>{event.participants.length}</TableCell>
+      <TableRow key={category._id}>
+        <TableCell>{category.name}</TableCell>
+        <TableCell>{category.description}</TableCell>
+        <TableCell>{formatDate(category.createdAt)}</TableCell>
+        <TableCell>{formatDate(category.updatedAt)}</TableCell>
       </TableRow>
     );
   }
   return (
     <div className="flex justify-center container mx-auto py-5">
       <PaginatedTable
-        headers={eventHeaders}
+        headers={categoryHeaders}
         rows={Categories}
-        renderRow={renderEventRow}
+        renderRow={renderCategoryRow}
       />
     </div>
   );

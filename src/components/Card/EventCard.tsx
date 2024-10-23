@@ -1,17 +1,23 @@
+import { EventType } from "@/types/event.type";
+import { calculateDateLeft } from "@/utils/day";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import CategoryChip from "../Chips/CategoryChip";
 import ProgressBar from "../Progress/ProgressBar";
 
-export default function EventCard() {
+type Props = {
+  event: EventType;
+};
+
+export default function EventCard({ event }: Props) {
   return (
-    <Link href="/event/1">
+    <Link href={`/event/${event._id}`}>
       <div className="bg-white relative w-[330px] rounded-xl shadow border border-indigo-300 hover:border-indigo-500 duration-100 cursor-pointer">
         <div className="h-36 relative">
           <div className="h-full relative">
             <Image
-              src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZXZlbnR8ZW58MHx8MHx8fDA%3D"
+              src={event.thumbnail}
               alt="events"
               className="h-full absolute object-cover object-top w-full rounded-t-lg"
               width={1000}
@@ -20,7 +26,7 @@ export default function EventCard() {
             <div className="absolute -bottom-5 left-3">
               <Image
                 className="w-14 h-14 rounded-full"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK_mAcrV3vVhLq6HK4c1liqGV59qhOwXdEGw&s"
+                src={event.createdBy?.organization?.profileImage as string}
                 alt="avatar"
                 width={1000}
                 height={1000}
@@ -28,7 +34,11 @@ export default function EventCard() {
             </div>
             <div className="absolute top-0 left-1">
               <div className=" bg-indigo-800 text-white text-sm p-2 px-5 m-2 rounded-lg border border-gray-700 shadow">
-                Final Build
+                {calculateDateLeft(
+                  event.registrationStartDate,
+                  event.registrationEndDate,
+                )}{" "}
+                Days Left
               </div>
             </div>
           </div>
@@ -36,19 +46,19 @@ export default function EventCard() {
 
         <div className="p-5">
           <Typography variant="h5" className="text-indigo-900 pt-4 text-2xl">
-            CASSINI Hackathons Environment and Green Transition
+            {event.title}
           </Typography>
           <Typography
             variant="h6"
             className="text-gray-600 pt-4 text-base font-light"
           >
-            Create innovative solutions for the environment & green transition
-            with EU space technologies
+            {event.description}
           </Typography>
         </div>
         <div className="flex space-x-4 px-5">
-          <CategoryChip category="Environment" />
-          <CategoryChip category="Green Transition" />
+          {event.categories.map((category) => (
+            <CategoryChip key={category._id} category={category.name} />
+          ))}
         </div>
         <Box
           sx={{
@@ -60,15 +70,19 @@ export default function EventCard() {
             backgroundColor: "white",
           }}
         >
-          <ProgressBar />
+          <ProgressBar
+            width={(event.amountRaised / event.amountRequired) * 100}
+          />
           <Typography variant="body2" className="text-gray-600 pl-2 uppercase">
-            7 days left
+            {(event.amountRaised / event.amountRequired) * 100} %
           </Typography>
         </Box>
         <div className="flex flex-col p-5 border-t border-indigo-300">
           <p className="font-normal text-black text-xl">Prize</p>
           <div className="flex items-center text-soft-blue space-x-2 whitespace-nowrap">
-            <p className="font-normal text-black text-xl">100 $</p>
+            <p className="font-normal text-black text-xl">
+              {event.prizes[0]} $
+            </p>
           </div>
         </div>
       </div>

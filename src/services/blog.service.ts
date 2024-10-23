@@ -1,9 +1,6 @@
 import { CreateBlogDto, UpdateBlogDto } from "@/common/dto/blog.dto";
-import {
-  BlogResponseType,
-  BlogsResponseType,
-} from "@/common/responses/blog.response";
 import { apiController } from "@/controllers/api.controller";
+import { BlogResponseType, BlogsResponseType } from "@/types/blog.type";
 
 export const blogService = {
   getBlogs: async (): Promise<BlogsResponseType> => {

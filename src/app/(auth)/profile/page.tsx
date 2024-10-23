@@ -8,6 +8,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import StarsIcon from "@mui/icons-material/Stars";
 import SubjectIcon from "@mui/icons-material/Subject";
 import { Box, Grid, Typography } from "@mui/material";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
@@ -115,7 +116,7 @@ export default function ProfilePage() {
                 className="ml-2 history-text"
                 sx={{ fontWeight: "400" }}
               >
-                History
+                <Link href="/histories">History</Link>
               </Typography>
             </Box>
           </Box>
@@ -128,14 +129,7 @@ export default function ProfilePage() {
               className="font-medium"
               sx={{ color: "#1b1042" }}
             >
-              {userProfile?.data.fullName.split(" ").map((part, index) => (
-                <React.Fragment key={index}>
-                  {part}
-                  {index < userProfile?.data.fullName.split(" ").length - 1 && (
-                    <br />
-                  )}
-                </React.Fragment>
-              ))}
+              {userProfile?.data.fullName}
               <a
                 href="/edit-profile"
                 style={{

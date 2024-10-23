@@ -33,7 +33,10 @@ export default function EditProfilePage() {
 
   return (
     <>
-      <main className="ml-20 mr-20" style={{ color: "#1b1042" }}>
+      <main
+        className="ml-20 mr-20 overflow-x-hidden"
+        style={{ color: "#1b1042" }}
+      >
         <Box
           className="p-5"
           sx={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
