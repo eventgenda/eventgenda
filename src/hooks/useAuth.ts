@@ -1,4 +1,5 @@
 import { LoginDto } from "@/common/dto/login.dto";
+import { RegisterDto } from "@/common/dto/register.dto";
 import { authService } from "@/services/auth.service";
 import { useAuthStore } from "@/stores/auth.store";
 import Cookies from "js-cookie";
@@ -11,6 +12,18 @@ export const useAuth = () => {
   const loginMutation = useMutation(
     async (authDto: LoginDto) => {
       return await authService.login(authDto);
+    },
+    {
+      onSuccess: (data) => {
+        setCookies(data.data.accessToken);
+        userProfileQuery.refetch();
+      },
+    },
+  );
+
+  const registerMutation = useMutation(
+    async (authDto: RegisterDto) => {
+      return await authService.register(authDto);
     },
     {
       onSuccess: (data) => {
@@ -45,6 +58,7 @@ export const useAuth = () => {
 
   return {
     loginMutation,
+    registerMutation,
     userProfileQuery,
     userProfile: userProfileQuery.data,
     userProfileLoading: userProfileQuery.isLoading,

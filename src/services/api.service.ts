@@ -3,20 +3,20 @@ import axios, {
   type AxiosInstance,
   type AxiosResponse,
   type InternalAxiosRequestConfig,
-} from "axios";
-import Cookies from "js-cookie";
+} from 'axios';
+import Cookies from 'js-cookie';
 
-const baseURL: string = process.env.API_URL || "http://localhost:8081";
+const baseURL: string = process.env.API_URL || 'http://localhost:8081';
 
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL,
 });
 
 const requestInterceptor = (config: InternalAxiosRequestConfig) => {
-  const token = Cookies.get("token");
+  const token = Cookies.get('token');
   if (token) {
     config.headers = config.headers || {};
-    config.headers["Authorization"] = `Bearer ${token}`;
+    config.headers['Authorization'] = `Bearer ${token}`;
   }
   return config;
 };
@@ -29,7 +29,7 @@ const errorInterceptor = async (error: AxiosError) => {
   const originalRequest = error.config;
 
   if (error.response?.status === 401 && originalRequest) {
-    console.log("401 error");
+    console.log('401 error');
   }
 
   return Promise.reject(error);
